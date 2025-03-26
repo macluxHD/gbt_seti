@@ -8,7 +8,7 @@ prefix ?= $(SETI_GBT)
 BINDIR = $(prefix)/bin
 LIBDIR = $(prefix)/lib
 CUDA = /usr/local/cuda
-CUDAC = $(CUDA)/bin/nvcc
+CUDAC = /usr/bin/nvcc
 # Linux is the first choice
 ifeq ($(OS),Linux)
         LIBSUFFIX = .so

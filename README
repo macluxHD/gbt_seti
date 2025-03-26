@@ -1,0 +1,16 @@
+To start the container
+
+```shell
+docker compose up
+```
+
+Start it headless
+
+```shell
+docker compose up -d
+```
+
+To stop the container
+```
+docker compose down
+```

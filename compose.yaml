@@ -1,0 +1,7 @@
+name: gbt_seti
+services:
+  gbt_seti:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gbt_seti

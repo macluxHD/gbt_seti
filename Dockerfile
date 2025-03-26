@@ -1,20 +1,19 @@
-FROM mcranmer/bifrost
+FROM nvidia/cuda:12.8.1-base-ubuntu20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # From https://github.com/cmbant/docker-cosmobox
 #Install latex and python (skip pyside, assume only command line)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     texlive dvipng texlive-latex-extra texlive-fonts-recommended \
-    python-pip \
     python-setuptools \
     python-dev \
-    python-numpy \
-    python-matplotlib \
-    python-scipy \
-    python-pandas \
     cython \
-    ipython \
     wget \
+    zlib1g-dev \
+    build-essential \
+    ca-certificates \
     && apt-get clean
 
 # In case want to run starcluster from here
@@ -22,9 +21,9 @@ RUN apt-get update \
 
 #Install cfitsio library for reading FITS files
 RUN oldpath=`pwd` && cd /tmp \
-    && wget ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio_latest.tar.gz \
+    && wget https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio_latest.tar.gz \
     && tar zxvf cfitsio_latest.tar.gz \
-    && cd cfitsio \
+    && cd $(ls -d cfitsio-* | head -n 1) \
     && ./configure --prefix=/usr \
     && make -j 2 \
     && make install \
@@ -40,7 +39,8 @@ RUN apt-get update && \
     mysql-server \
     libmysqlclient-dev \
     mongodb-dev \
-    libmongo-client-dev
+    libmongo-client-dev \
+    git
 
 RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.6.2/mongo-c-driver-1.6.2.tar.gz && \
     tar xzf mongo* && \
@@ -59,7 +59,8 @@ RUN apt-get update && \
     fakeroot \
     libcurl4-gnutls-dev \
     libfftw3-dev \
-    libgsl0-dev
+    libgsl0-dev \
+    nvidia-cuda-toolkit
 
 # Install source libs3
 RUN git clone https://github.com/bji/libs3.git && \
@@ -68,10 +69,10 @@ RUN git clone https://github.com/bji/libs3.git && \
     make install && \
     cd ..
 
-COPY . .
+COPY . /app
 
 # Finally, install gbt_seti
-RUN cd src && \
+RUN cd app/src && \
     make && \
     make install
 
