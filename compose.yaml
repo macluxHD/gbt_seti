@@ -5,3 +5,4 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: gbt_seti
+    image: gbt_seti
