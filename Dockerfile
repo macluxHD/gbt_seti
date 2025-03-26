@@ -77,4 +77,4 @@ RUN cd app/src && \
     make && \
     make install
 
-RUN cp -r /usr/local/listen /exported-binaries
+ENV LD_LIBRARY_PATH=/usr/local/listen/lib:$LD_LIBRARY_PATH

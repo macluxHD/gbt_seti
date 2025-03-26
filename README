@@ -4,28 +4,17 @@ To start the container
 docker compose up -d
 ```
 
-Get shell in container
+Put the .raw file we want to convert into the input folder
+
+See [container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) to be able to use GPU inside of container
+
+Then open a shell inside of the container
+```shell
+docker run --runtime=nvidia --gpus all -it -v ./input:/input -v ./output:/output gbt_seti /bin/bash 
+``` 
+
+Run the conversion process. Afterwards it should be available in the output folder on the host system
 
 ```shell
-docker run -it -v ./input:/input gbt_seti /bin/bash 
-```
-
-Execute the binary (put the .raw file into a folder called input and  then get she shell in the container and from there execute the following command)
-
-```shell
-time /usr/local/listen/bin/gpuspec -i ./input/blc3_guppi_57386_VOYAGER1_0004.0000.raw -B 2 -f 1032192 -t 15 -V -o ./output
-```
-
-# Exporting
-
-Export something from the container to the host 
-
-```shell
-docker cp gbt_seti:/exported-binaries/. ./docker_output
-```
-
-To change what you want to export in the Dockerfile change this last line
-
-```shell
-RUN cp -r /usr/local/listen /exported-binaries
+time /usr/local/listen/bin/gpuspec -i ./input/blc3_guppi_57386_VOYAGER1_0004.0000.raw -B 2 -f 1032192 -t 15 -V -o ./output/VOYAGER_filterbank
 ```
