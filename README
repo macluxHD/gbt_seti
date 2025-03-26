@@ -1,7 +1,7 @@
-To start the container
+Build the container
 
 ```shell
-docker compose up -d
+docker compose up
 ```
 
 Put the .raw file we want to convert into the input folder
