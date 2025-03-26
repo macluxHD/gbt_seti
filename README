@@ -1,16 +1,31 @@
 To start the container
 
 ```shell
-docker compose up
-```
-
-Start it headless
-
-```shell
 docker compose up -d
 ```
 
-To stop the container
+Get shell in container
+
+```shell
+docker run -it -v ./input:/input gbt_seti /bin/bash 
 ```
-docker compose down
+
+Execute the binary (put the .raw file into a folder called input and  then get she shell in the container and from there execute the following command)
+
+```shell
+time /usr/local/listen/bin/gpuspec -i ./input/blc3_guppi_57386_VOYAGER1_0004.0000.raw -B 2 -f 1032192 -t 15 -V -o ./output
+```
+
+# Exporting
+
+Export something from the container to the host 
+
+```shell
+docker cp gbt_seti:/exported-binaries/. ./docker_output
+```
+
+To change what you want to export in the Dockerfile change this last line
+
+```shell
+RUN cp -r /usr/local/listen /exported-binaries
 ```

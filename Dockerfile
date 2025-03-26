@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 #Install latex and python (skip pyside, assume only command line)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+    apt-utils \
     texlive dvipng texlive-latex-extra texlive-fonts-recommended \
     python-setuptools \
     python-dev \
@@ -60,7 +61,7 @@ RUN apt-get update && \
     libcurl4-gnutls-dev \
     libfftw3-dev \
     libgsl0-dev \
-    nvidia-cuda-toolkit
+    nvidia-cuda-toolkit 
 
 # Install source libs3
 RUN git clone https://github.com/bji/libs3.git && \
@@ -76,4 +77,4 @@ RUN cd app/src && \
     make && \
     make install
 
-RUN ["/bin/bash"]
+RUN cp -r /usr/local/listen /exported-binaries
